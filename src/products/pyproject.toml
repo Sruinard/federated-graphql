@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "products"
+version = "0.1.0"
+description = ""
+authors = ["Stef Ruinard <stefruinard@microsoft.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+strawberry-graphql = "^0.114.0"
+fastapi = "^0.78.0"
+uvicorn = "^0.17.6"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
