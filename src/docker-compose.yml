@@ -1,0 +1,24 @@
+services:
+  gateway:
+    build:
+      context: ./gateway
+    networks: [berry]
+    hostname: gateway
+    depends_on: [catalogue, enterprise]
+    ports:
+      - "4000:7000"
+
+  catalogue:
+    build:
+      context: ./catalogue
+    networks: [berry]
+    hostname: catalogue
+
+  enterprise:
+    build:
+      context: ./enterprise
+    networks: [berry]
+    hostname: enterprise
+
+networks:
+  berry:

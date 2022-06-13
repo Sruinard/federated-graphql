@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "src/products"
+    },
+    {
+      "path": "src/azure_platform"
+    }
+  ],
+  "settings": {}
+}

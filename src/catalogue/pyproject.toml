@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "books"
+version = "0.1.0"
+description = ""
+authors = []
+
+[tool.poetry.dependencies]
+python = "^3.9"
+strawberry-graphql = "^0.104.1"
+uvicorn = "^0.13.4"
+taskipy = "^1.8.1"
+fastapi = "0.73.0"
+
+[tool.taskipy.tasks]
+server = "uvicorn app:app --host 0.0.0.0 --port 8000 --reload"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
