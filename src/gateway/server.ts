@@ -4,13 +4,13 @@ import { ApolloGateway } from "@apollo/gateway";
 const gateway = new ApolloGateway({
   serviceList: [
     {
-      name: "catalogue",
-      url: "https://catalogue.wittypebble-179ef70d.westeurope.azurecontainerapps.io/graphql",
+      name: "account",
+      url: "https://account.wittypebble-179ef70d.westeurope.azurecontainerapps.io/graphql",
       // url: "http://catalogue:8000/graphql"
     },
     {
-      name: "enterprise",
-      url: "https://enterprise.wittypebble-179ef70d.westeurope.azurecontainerapps.io/graphql",
+      name: "payments",
+      url: "https://payments.wittypebble-179ef70d.westeurope.azurecontainerapps.io/graphql",
       // url: "http://enterprise:8800/graphql"
     },
   ],

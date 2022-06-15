@@ -1,18 +1,18 @@
 
 
 
-build_all: build_enterprise build_catalogue build_gateway
+build_all: build_account build_payments build_gateway
 	@echo "done building all pushing all images"
 
-build_enterprise: login
-	docker build -t enterprise ./enterprise
-	docker tag enterprise csunlsrcr.azurecr.io/enterprise
-	docker push csunlsrcr.azurecr.io/enterprise
+build_payments: login
+	docker build -t payments ./payments
+	docker tag payments csunlsrcr.azurecr.io/payments
+	docker push csunlsrcr.azurecr.io/payments
 
-build_catalogue: login
-	docker build -t catalogue ./catalogue
-	docker tag catalogue csunlsrcr.azurecr.io/catalogue
-	docker push csunlsrcr.azurecr.io/catalogue
+build_account: login
+	docker build -t account ./account
+	docker tag account csunlsrcr.azurecr.io/account
+	docker push csunlsrcr.azurecr.io/account
 
 build_gateway: login
 	docker build -t gateway ./gateway
