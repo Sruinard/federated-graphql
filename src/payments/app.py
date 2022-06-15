@@ -5,11 +5,28 @@ from strawberry.asgi import GraphQL
 from fastapi import FastAPI
 import requests
 
+
+
+
+
+###################################################
+###################################################
+###################################################
+
+
 @strawberry.type(description="Payment provides information about the amount transferred to the recipient")
 class Payment:
     id: strawberry.ID
     amount: str
     recipient: str
+
+###################################################
+###################################################
+###################################################
+
+
+
+
 
 def get_orders(root: "Account"):
     core_features_data = {
@@ -22,6 +39,11 @@ def get_orders(root: "Account"):
         for id, amount, recipient in data
         ]
 
+
+###################################################
+###################################################
+###################################################
+
 @strawberry.federation.type(extend=True, keys=["id"])
 class Account:
     id: strawberry.ID = strawberry.federation.field(external=True)
@@ -30,6 +52,13 @@ class Account:
     @classmethod
     def resolve_reference(cls, id: strawberry.ID):
         return Account(id=id)
+
+
+###################################################
+###################################################
+###################################################
+
+
 
 @strawberry.type
 class Query:
