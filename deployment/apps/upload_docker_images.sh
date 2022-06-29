@@ -11,6 +11,6 @@ docker build -t payments ./src/payments
 docker tag accounts $CONTAINER_NAME.azurecr.io/payments:latest
 docker push $CONTAINER_NAME.azurecr.io/payments:latest
 
-docker build -t payments ./src/gateway 
+docker build -t gateway ./src/gateway 
 docker tag gateway $CONTAINER_NAME.azurecr.io/gateway:latest
 docker push $CONTAINER_NAME.azurecr.io/gateway:latest
