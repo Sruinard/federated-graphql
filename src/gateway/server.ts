@@ -5,12 +5,12 @@ const gateway = new ApolloGateway({
   serviceList: [
     {
       name: "accounts",
-      url: "https://accounts.wittypebble-179ef70d.westeurope.azurecontainerapps.io/graphql",
+      url: process.env.ACCOUNTS_ENDPOINT
       // url: "http://catalogue:8000/graphql"
     },
     {
       name: "payments",
-      url: "https://payments.wittypebble-179ef70d.westeurope.azurecontainerapps.io/graphql",
+      url: process.env.PAYMENTS_ENDPOINT
       // url: "http://enterprise:8800/graphql"
     },
   ],

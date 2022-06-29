@@ -16,17 +16,17 @@ param containerAppsObjects object = {
       }
     ]
   }
-  // payments: {
-  //   appName: 'payments'
-  //   containerImage: '${containerRegistryName}${uniqueString(resourceGroup().id)}.azurecr.io/payments:latest'
-  //   containerPort: 8800
-  //   env: [
-  //     {
-  //       name: 'PORT_NUMBER'
-  //       value: 'Application running on port 8800'
-  //     }
-  //   ]
-  // }
+  payments: {
+    appName: 'payments'
+    containerImage: '${containerRegistryName}${uniqueString(resourceGroup().id)}.azurecr.io/payments:latest'
+    containerPort: 8800
+    env: [
+      {
+        name: 'PORT_NUMBER'
+        value: 'Application running on port 8800'
+      }
+    ]
+  }
 }
 
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2021-12-01-preview' existing = {
@@ -34,6 +34,42 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2021-12-01-pr
 }
 
 module containerApps 'container_apps.bicep' = [for app in items(containerAppsObjects): {
+  name: app.value.appName
+  params: {
+    location: location
+    containerAppName: app.value.appName
+    environmentName: environmentName
+    containerImage: app.value.containerImage
+    containerPort: app.value.containerPort
+
+    env: app.value.env
+    containerRegistryName: containerRegistry.name
+    containerLoginServer: containerRegistry.properties.loginServer
+    containerRegistryPassword: containerRegistry.listCredentials().passwords[0].value
+
+  }
+}]
+
+param gatewayContainerApp object = {
+  accounts: {
+    appName: 'gateway'
+    containerImage: '${containerRegistryName}${uniqueString(resourceGroup().id)}.azurecr.io/gateway:latest'
+    containerPort: 7000
+    env: [
+      {
+        name: 'ACCOUNTS_ENDPOINT'
+        value: 'http://accounts.${environmentName}.${location}.azurecontainerapps.io/graphql'
+      }
+      {
+        name: 'PAYMENTS_ENDPOINT'
+        value: 'http://payments.${environmentName}.${location}.azurecontainerapps.io/graphql'
+
+      }
+    ]
+  }
+}
+
+module gatewayApp 'container_apps.bicep' = [for app in items(gatewayContainerApp): {
   name: app.value.appName
   params: {
     location: location
