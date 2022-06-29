@@ -21,9 +21,19 @@ jobs:
         id: deploy_infra
         run: |
           az group create --name csu-nl-sr-graphql --location westeurope
-          echo "::set-output name=registry::${az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/infra/main.bicep --query properties.outputs.containerRegistryName.value}}"
-  # deploy_apps:
-  #   runs-on: ubuntu-latest
-  #   needs: deploy_infra
-  #   steps:
-  #     - run: echo ${{needs.deploy_infra.outputs.registry_name}}
+          echo "::set-output name=registry::${az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/infra/main.bicep --query properties.outputs.containerRegistryName.value}"
+  deploy_apps:
+    runs-on: ubuntu-latest
+    needs: deploy_infra
+    steps:
+      - uses: actions/checkout@v3
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - run: echo ${{needs.deploy_infra.outputs.registry_name}}
+      - name: upload containers
+        run: |
+          ./deployment/apps/upload_docker_images.sh ${{needs.deploy_infra.outputs.registry_name}} 
+      - name: deploy container apps:
+        run: |
+          az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/apps/main.bicep
