@@ -33,7 +33,7 @@ jobs:
       - run: echo ${{needs.deploy_infra.outputs.registry}}
       - name: upload containers
         run: |
-          ./deployment/apps/upload_docker_images.sh ${{needs.deploy_infra.outputs.registry_name}} 
+          ./deployment/apps/upload_docker_images.sh ${{needs.deploy_infra.outputs.registry}} 
       - name: deploy container apps
         run: |
           az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/apps/main.bicep
