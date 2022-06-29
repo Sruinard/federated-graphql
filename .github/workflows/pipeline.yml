@@ -21,7 +21,7 @@ jobs:
         id: deploy_infra
         run: |
           az group create --name csu-nl-sr-graphql --location westeurope
-          echo "REGISTRY=${az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/infra/main.bicep --query properties.outputs.containerRegistryName.value}" >> $GITHUB_ENV
+          echo "REGISTRY=${{az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/infra/main.bicep --query properties.outputs.containerRegistryName.value}}" >> $GITHUB_ENV
           echo ::set-output name=registry::${REGISTRY}
   deploy_apps:
     runs-on: ubuntu-latest
