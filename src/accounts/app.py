@@ -1,4 +1,5 @@
 from typing import List
+import os
 
 import strawberry
 from strawberry.asgi import GraphQL
@@ -18,6 +19,9 @@ def get_accounts():
         for id, name in ACCOUNTS
     ]
 
+def get_config():
+    return os.environ.get("PORT_NUMBER", "Default configuration showing")
+
 ###################################################
 ###################################################
 ###################################################
@@ -33,9 +37,11 @@ class Account:
 
 
 
+
 @strawberry.type
 class Query:
     all_users: List[Account] = strawberry.field(resolver=get_accounts, description="Retrieves all accounts registered on our service") 
+    config: str = strawberry.field(resolver=get_config, description="Retrieves the configuration of our service")
 
 
 schema = strawberry.federation.Schema(query=Query)

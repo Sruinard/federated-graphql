@@ -4,8 +4,8 @@ import { ApolloGateway } from "@apollo/gateway";
 const gateway = new ApolloGateway({
   serviceList: [
     {
-      name: "account",
-      url: "https://account.wittypebble-179ef70d.westeurope.azurecontainerapps.io/graphql",
+      name: "accounts",
+      url: "https://accounts.wittypebble-179ef70d.westeurope.azurecontainerapps.io/graphql",
       // url: "http://catalogue:8000/graphql"
     },
     {
