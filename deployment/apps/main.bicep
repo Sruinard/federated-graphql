@@ -58,11 +58,11 @@ param gatewayContainerApp object = {
     env: [
       {
         name: 'ACCOUNTS_ENDPOINT'
-        value: 'http://accounts.${environmentName}.${location}.azurecontainerapps.io/graphql'
+        value: '${containerApps[0].outputs.fqdn}/graphql'
       }
       {
         name: 'PAYMENTS_ENDPOINT'
-        value: 'http://payments.${environmentName}.${location}.azurecontainerapps.io/graphql'
+        value: '${containerApps[1].outputs.fqdn}/graphql'
 
       }
     ]
