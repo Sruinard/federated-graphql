@@ -21,7 +21,7 @@ jobs:
         id: deploy_infra
         run: |
           az group create --name csu-nl-sr-graphql --location westeurope
-          echo "::set-output name=registry::${{az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/infra/main.bicep --query properties.outputs.containerRegistryName.value}}"
+          echo "::set-output name=registry::${az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/infra/main.bicep --query properties.outputs.containerRegistryName.value}}"
   # deploy_apps:
   #   runs-on: ubuntu-latest
   #   needs: deploy_infra
