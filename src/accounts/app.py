@@ -38,7 +38,7 @@ class Query:
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    def add_user(self, name) -> Account:
+    def add_user(self, name: str) -> Account:
         account = Account(id=get_id(), name=name)
         ACCOUNTS.append(account)
         return account
