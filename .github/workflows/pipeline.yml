@@ -46,9 +46,11 @@ jobs:
         run: |
           npm install -g get-graphql-schema
           echo $(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.graphqlEndpoint.value)
+          export MY_VAR=$(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.graphqlEndpoint.value)
           get-graphql-schema '$(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.graphqlEndpoint.value)' > ./schema.graphql
           get-graphql-schema https://gateway.bravefield-4034c4ad.westeurope.azurecontainerapps.io > schema.graphql
-
+          echo $MY_VAR
+          get-graphql-schema ${{ MY_VAR }} >> schema.graphql
       - name: upload schema
         run: |
           cat ./schema.graphql
