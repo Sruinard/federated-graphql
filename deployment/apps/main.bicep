@@ -57,11 +57,11 @@ var gatewayContainerApp = {
   env: [
     {
       name: 'ACCOUNTS_ENDPOINT'
-      value: '${containerApps[0].outputs.fqdn}/graphql'
+      value: 'https://${containerApps[0].outputs.fqdn}/graphql'
     }
     {
       name: 'PAYMENTS_ENDPOINT'
-      value: '${containerApps[1].outputs.fqdn}/graphql'
+      value: 'https://${containerApps[1].outputs.fqdn}/graphql'
 
     }
   ]
@@ -84,27 +84,58 @@ module gatewayApp 'container_apps.bicep' = {
   }
 }
 
-resource apimInstance 'Microsoft.ApiManagement/service@2020-12-01' existing = {
+resource apimInstance 'Microsoft.ApiManagement/service@2021-04-01-preview' existing = {
   name: apimName
 }
 
-resource petshopApi 'Microsoft.ApiManagement/service/apis@2020-12-01' = {
+resource bankAPI 'Microsoft.ApiManagement/service/apis@2021-04-01-preview' = {
   name: 'bank'
   parent: apimInstance
   properties: {
-    path: '/bank'
+    path: '/custom_bank'
     apiRevision: '1'
-    displayName: 'Bank API'
+    displayName: 'Bank API Bicep'
     description: 'Bank API'
     apiType: 'graphql'
+    type: 'graphql'
     subscriptionRequired: true
-    serviceUrl: gatewayApp.outputs.fqdn
-    subscriptionKeyParameterNames: {
-      header: 'api-key'
-      query: 'api-key'
-    }
+    format: 'graphql-link'
+    serviceUrl: 'https://${gatewayApp.outputs.fqdn}/graphql'
     protocols: [
       'https'
     ]
   }
 }
+
+// resource bankAPISchema 'Microsoft.ApiManagement/service/apis/schemas@2021-12-01-preview' = {
+//   name: 'graphql'
+//   parent: bankAPI
+//   properties: {
+//     contentType: 'application/vnd.ms-azure-apim.graphql.schema'
+//     document: {
+//       value: loadTextContent('../../schema.graphql')
+//     }
+//   }
+// }
+
+resource starwars 'Microsoft.ApiManagement/service/apis@2021-04-01-preview' = {
+  name: 'starwars'
+  parent: apimInstance
+  properties: {
+    path: '/starwars'
+    apiRevision: '1'
+    displayName: 'starwars'
+    description: 'starwars API'
+    type: 'graphql'
+    subscriptionRequired: true
+    format: 'graphql-link'
+    serviceUrl: 'https://swapi-graphql.azure-api.net/graphql'
+    protocols: [
+      'https'
+    ]
+  }
+}
+
+output graphqlEndpoint string = 'https://${gatewayApp.outputs.fqdn}/graphql'
+output apiId string = bankAPI.name
+output apimName string = apimInstance.name

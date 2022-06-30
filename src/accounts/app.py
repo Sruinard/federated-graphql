@@ -4,20 +4,14 @@ import os
 import strawberry
 from strawberry.asgi import GraphQL
 from fastapi import FastAPI
+import uuid
 
-ACCOUNTS = [
-            ("a", "Stef Ruinard"),
-            ("b", "Jochen van Wylick"),
-]
+def get_id():
+    return str(uuid.uuid4())
+
 
 def get_accounts():
-    return [
-        Account(
-            id=id,
-            name=name
-        )
-        for id, name in ACCOUNTS
-    ]
+    return ACCOUNTS
 
 def get_config():
     return os.environ.get("PORT_NUMBER", "Default configuration showing")
@@ -36,15 +30,26 @@ class Account:
 ###################################################
 
 
-
-
 @strawberry.type
 class Query:
     all_users: List[Account] = strawberry.field(resolver=get_accounts, description="Retrieves all accounts registered on our service") 
     config: str = strawberry.field(resolver=get_config, description="Retrieves the configuration of our service")
 
+@strawberry.type
+class Mutation:
+    @strawberry.mutation
+    def add_user(self, name) -> Account:
+        account = Account(id=get_id(), name=name)
+        ACCOUNTS.append(account)
+        return account
 
-schema = strawberry.federation.Schema(query=Query)
+
+ACCOUNTS = [
+    Account(id=get_id(), name="Stef Ruinard"),
+    Account(id=get_id(), name="Jochen van Wylick")
+]
+
+schema = strawberry.federation.Schema(query=Query, mutation=Mutation)
 
 graphql_app = GraphQL(schema)
 

@@ -12,7 +12,7 @@ param publisherEmail string
 ])
 param sku string = 'Consumption'
 
-resource storeapim 'Microsoft.ApiManagement/service@2020-12-01' = {
+resource storeapim 'Microsoft.ApiManagement/service@2021-04-01-preview' = {
   name: apimName
   location: apimLocation
   sku: {
