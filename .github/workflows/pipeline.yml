@@ -46,7 +46,7 @@ jobs:
         run: |
           npm install -g get-graphql-schema
           echo $(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.graphqlEndpoint.value)
-          get-graphql-schema $(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.graphqlEndpoint.value) > ./schema.graphql
+          get-graphql-schema '$(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.graphqlEndpoint.value)' > ./schema.graphql
 
       - name: upload schema
         run: |
