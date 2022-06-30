@@ -14,16 +14,16 @@ jobs:
       registry: ${{ steps.deploy_infra.outputs.registry }}
     steps:
       - uses: actions/checkout@v3
-      # - uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
-      # - id: step1
-      #   run: echo "::set-output name=test::hello"
-      # - name: deploy infra
-      #   id: deploy_infra
-      #   run: |
-      #     az group create --name csu-nl-sr-graphql --location westeurope
-      #     echo "::set-output name=registry::$(az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/infra/main.bicep --query properties.outputs.containerRegistryName.value)"
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - id: step1
+        run: echo "::set-output name=test::hello"
+      - name: deploy infra
+        id: deploy_infra
+        run: |
+          az group create --name csu-nl-sr-graphql --location westeurope
+          echo "::set-output name=registry::$(az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/infra/main.bicep --query properties.outputs.containerRegistryName.value)"
   deploy_apps:
     runs-on: ubuntu-latest
     needs: deploy_infra
@@ -33,14 +33,14 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      # - run: echo ${{needs.deploy_infra.outputs.registry}}
-      # - name: upload containers
-      #   run: |
-      #     ./deployment/apps/upload_docker_images.sh ${{needs.deploy_infra.outputs.registry}} 
-      # - name: deploy container apps
-      #   id: deploy_apps
-      #   run: |
-      #     echo "::set-output name=graph_endpoint::$(az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/apps/main.bicep --query properties.outputs.graphqlEndpoint.value)"
+      - run: echo ${{needs.deploy_infra.outputs.registry}}
+      - name: upload containers
+        run: |
+          ./deployment/apps/upload_docker_images.sh ${{needs.deploy_infra.outputs.registry}} 
+      - name: deploy container apps
+        id: deploy_apps
+        run: |
+          echo "::set-output name=graph_endpoint::$(az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/apps/main.bicep --query properties.outputs.graphqlEndpoint.value)"
 
       - uses: actions/setup-node@v3
         with:
