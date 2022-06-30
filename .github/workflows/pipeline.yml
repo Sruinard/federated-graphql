@@ -52,4 +52,11 @@ jobs:
           ./deployment/apps/upload_graphql_schema.sh ${{env.RESOURCE_GROUP}}
       - name: upload schema
         run: |
-          az apim api schema create --service-name $(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.apimName.value) -g {{ env.RESOURCE_GROUP }} --api-id $(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.apiId.value) --schema-id graphql --schema-type application/vnd.ms-azure-apim.graphql.schema --schema-path ./schema.graphql
+          az apim api schema create \
+            --service-name $(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.apimName.value) \
+            -g ${{ env.RESOURCE_GROUP }} \
+            -n main \
+            --api-id $(az deployment group show -g ${{ env.RESOURCE_GROUP }} --query properties.outputs.apiId.value) \
+            --schema-id graphql \
+            --schema-type application/vnd.ms-azure-apim.graphql.schema \
+            --schema-path ./schema.graphql
