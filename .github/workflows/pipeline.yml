@@ -3,9 +3,9 @@ on:
     branches:
       - main
     
+env:
+  RESOURCE_GROUP: "csu-nl-sr-graphql"
 jobs:
-  env:
-    RESOURCE_GROUP: "csu-nl-sr-graphql"
   deploy_infra:
     runs-on: ubuntu-latest
     # Map a step output to a job output
