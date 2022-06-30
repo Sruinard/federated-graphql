@@ -51,7 +51,3 @@ jobs:
       - name: upload schema
         run: |
           az apim api schema create --service-name graph-api-mgmt-lcp347n5bykka -g csu-nl-sr-graphql --api-id bank --schema-id graphql --schema-type application/vnd.ms-azure-apim.graphql.schema --schema-path ./schema.graphql
-
-      -
-
-        
