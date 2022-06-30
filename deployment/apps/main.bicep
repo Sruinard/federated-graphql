@@ -136,6 +136,6 @@ resource starwars 'Microsoft.ApiManagement/service/apis@2021-04-01-preview' = {
   }
 }
 
-output graphqlEndpoint string = 'https://${gatewayApp.outputs.fqdn}/graphql'
+output graphqlEndpoint string = 'https://${gatewayApp.outputs.fqdn}'
 output apiId string = bankAPI.name
 output apimName string = apimInstance.name
