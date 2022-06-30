@@ -6,7 +6,7 @@ echo $ENDPOINT | xargs get-graphql-schema > schema.graphql
 az apim api schema create --service-name $(az deployment group show -g ${RESOURCE_GROUP} -n main --query properties.outputs.apimName.value) \
     -g ${RESOURCE_GROUP} \
     -n main \
-    --api-id $(az deployment group show -g ${RESOURCE_GROUP} --query properties.outputs.apiId.value) \
+    --api-id $(az deployment group show -g ${RESOURCE_GROUP} -n main --query properties.outputs.apiId.value) \
     --schema-id graphql \
     --schema-type application/vnd.ms-azure-apim.graphql.schema \
     --schema-path ./schema.graphql
