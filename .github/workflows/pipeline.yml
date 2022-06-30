@@ -4,6 +4,8 @@ on:
       - main
     
 jobs:
+  env:
+    RESOURCE_GROUP: "csu-nl-sr-graphql"
   deploy_infra:
     runs-on: ubuntu-latest
     # Map a step output to a job output
@@ -25,6 +27,7 @@ jobs:
   deploy_apps:
     runs-on: ubuntu-latest
     needs: deploy_infra
+    
     steps:
       - uses: actions/checkout@v3
       - uses: azure/login@v1
@@ -46,12 +49,7 @@ jobs:
         run: |
           npm install -g get-graphql-schema
           echo $(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.graphqlEndpoint.value)
-          export MY_VAR=$(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.graphqlEndpoint.value)
-          get-graphql-schema '$(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.graphqlEndpoint.value)' > ./schema.graphql
-          get-graphql-schema https://gateway.bravefield-4034c4ad.westeurope.azurecontainerapps.io > schema.graphql
-          echo $MY_VAR
-          get-graphql-schema ${{ MY_VAR }} >> schema.graphql
+          ./deployment/apps/upload_graphql_schema.sh ${{env.RESOURCE_GROUP}}
       - name: upload schema
         run: |
-          cat ./schema.graphql
-          az apim api schema create --service-name graph-api-mgmt-lcp347n5bykka -g csu-nl-sr-graphql --api-id bank --schema-id graphql --schema-type application/vnd.ms-azure-apim.graphql.schema --schema-path ./schema.graphql
+          az apim api schema create --service-name $(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.apimName.value) -g {{ env.RESOURCE_GROUP }} --api-id $(az deployment group show -g csu-nl-sr-graphql -n main --query properties.outputs.apiId.value) --schema-id graphql --schema-type application/vnd.ms-azure-apim.graphql.schema --schema-path ./schema.graphql
