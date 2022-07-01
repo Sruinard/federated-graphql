@@ -4,21 +4,26 @@ services:
       context: ./gateway
     networks: [berry]
     hostname: gateway
-    depends_on: [catalogue, enterprise]
+    depends_on: [founders, companies]
     ports:
       - "4000:7000"
 
-  catalogue:
-    build:
-      context: ./catalogue
-    networks: [berry]
-    hostname: catalogue
+    environment:
+      - FOUNDERS_ENDPOINT=http://founders:8000/graphql
+      - COMPANIES_ENDPOINT=http://companies:8800/graphql
 
-  enterprise:
+
+  founders:
     build:
-      context: ./enterprise
+      context: ./founders
     networks: [berry]
-    hostname: enterprise
+    hostname: founders
+
+  companies:
+    build:
+      context: ./companies
+    networks: [berry]
+    hostname: companies
 
 networks:
   berry:

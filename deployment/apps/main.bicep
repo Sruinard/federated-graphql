@@ -5,9 +5,9 @@ param deployApim bool = true
 param apimName string = 'graph-api-mgmt-${uniqueString(resourceGroup().id)}'
 
 param containerAppsObjects object = {
-  accounts: {
-    appName: 'accounts'
-    containerImage: '${containerRegistryName}${uniqueString(resourceGroup().id)}.azurecr.io/accounts:latest'
+  founders: {
+    appName: 'founders'
+    containerImage: '${containerRegistryName}${uniqueString(resourceGroup().id)}.azurecr.io/founders:latest'
     containerPort: 8000
     env: [
       {
@@ -16,9 +16,9 @@ param containerAppsObjects object = {
       }
     ]
   }
-  payments: {
-    appName: 'payments'
-    containerImage: '${containerRegistryName}${uniqueString(resourceGroup().id)}.azurecr.io/payments:latest'
+  companies: {
+    appName: 'companies'
+    containerImage: '${containerRegistryName}${uniqueString(resourceGroup().id)}.azurecr.io/companies:latest'
     containerPort: 8800
     env: [
       {
@@ -56,11 +56,11 @@ var gatewayContainerApp = {
   containerPort: 7000
   env: [
     {
-      name: 'ACCOUNTS_ENDPOINT'
+      name: 'FOUNDERS_ENDPOINT'
       value: 'https://${containerApps[0].outputs.fqdn}/graphql'
     }
     {
-      name: 'PAYMENTS_ENDPOINT'
+      name: 'COMPANIES_ENDPOINT'
       value: 'https://${containerApps[1].outputs.fqdn}/graphql'
 
     }
@@ -88,14 +88,14 @@ resource apimInstance 'Microsoft.ApiManagement/service@2021-04-01-preview' exist
   name: apimName
 }
 
-resource bankAPI 'Microsoft.ApiManagement/service/apis@2021-04-01-preview' = {
-  name: 'bank'
+resource gatewayApiAPIM 'Microsoft.ApiManagement/service/apis@2021-04-01-preview' = {
+  name: 'microcrunch'
   parent: apimInstance
   properties: {
-    path: '/custom_bank'
+    path: '/microcrunch'
     apiRevision: '1'
-    displayName: 'Bank API Bicep'
-    description: 'Bank API'
+    displayName: 'MicroCrunch'
+    description: 'MicroCrunch API'
     apiType: 'graphql'
     type: 'graphql'
     subscriptionRequired: true
@@ -118,24 +118,6 @@ resource bankAPI 'Microsoft.ApiManagement/service/apis@2021-04-01-preview' = {
 //   }
 // }
 
-resource starwars 'Microsoft.ApiManagement/service/apis@2021-04-01-preview' = {
-  name: 'starwars'
-  parent: apimInstance
-  properties: {
-    path: '/starwars'
-    apiRevision: '1'
-    displayName: 'starwars'
-    description: 'starwars API'
-    type: 'graphql'
-    subscriptionRequired: true
-    format: 'graphql-link'
-    serviceUrl: 'https://swapi-graphql.azure-api.net/graphql'
-    protocols: [
-      'https'
-    ]
-  }
-}
-
 output graphqlEndpoint string = 'https://${gatewayApp.outputs.fqdn}'
-output apiId string = bankAPI.name
+output apiId string = gatewayApiAPIM.name
 output apimName string = apimInstance.name

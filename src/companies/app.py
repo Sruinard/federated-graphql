@@ -1,13 +1,12 @@
 from typing import List, Optional
 
-import strawberry
-from strawberry.asgi import GraphQL
-from fastapi import FastAPI
 import requests
+import strawberry
+from fastapi import FastAPI
+from strawberry.asgi import GraphQL
 
-
-
-
+import repo
+import schemas
 
 ###################################################
 ###################################################
@@ -25,9 +24,6 @@ class Payment:
 ###################################################
 
 
-
-
-
 def get_orders(root: "Account"):
     core_features_data = {
         "a": [("a1", "$150", "IBANXXXXXXXXX"), ("a2", "$80", "IBANXXXXXXXXX")],
@@ -37,7 +33,7 @@ def get_orders(root: "Account"):
     return [
         Payment(id=id, amount=amount, recipient=recipient)
         for id, amount, recipient in data
-        ]
+    ]
 
 
 ###################################################
@@ -59,12 +55,20 @@ class Account:
 ###################################################
 
 
-
 @strawberry.type
 class Query:
     _service: Optional[str]
+    companies: List[schemas.Company] = strawberry.field(
+        resolver=repo.CompanyRepoInstance.get, description="Retrieves all accounts registered on our service")
 
-schema = strawberry.federation.Schema(query=Query, types=[Account])
+@strawberry.type
+class Mutation:
+    @strawberry.mutation(description="Creates a new account")
+    def add_company(self, name: str, ceo: str, rating: int, number_of_employees: int) -> schemas.Company:
+        company = repo.CompanyRepoInstance.add_company(name, ceo, rating, number_of_employees)
+        return company
+
+schema = strawberry.federation.Schema(query=Query, mutation=Mutation, types=[schemas.Founder])
 
 graphql_app = GraphQL(schema)
 app = FastAPI()

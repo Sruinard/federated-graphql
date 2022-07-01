@@ -4,13 +4,13 @@ import { ApolloGateway } from "@apollo/gateway";
 const gateway = new ApolloGateway({
   serviceList: [
     {
-      name: "accounts",
-      url: process.env.ACCOUNTS_ENDPOINT
+      name: "founders",
+      url: process.env.FOUNDERS_ENDPOINT
       // url: "http://catalogue:8000/graphql"
     },
     {
-      name: "payments",
-      url: process.env.PAYMENTS_ENDPOINT
+      name: "companies",
+      url: process.env.COMPANIES_ENDPOINT
       // url: "http://enterprise:8800/graphql"
     },
   ],

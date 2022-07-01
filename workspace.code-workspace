@@ -4,10 +4,10 @@
       "path": "."
     },
     {
-      "path": "src/products"
+      "path": "src/founders"
     },
     {
-      "path": "src/azure_platform"
+      "path": "src/companies"
     }
   ],
   "settings": {}
