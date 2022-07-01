@@ -7,5 +7,5 @@ class Company:
     name: str
     ceo: str
     rating: int
-    number_of_employees: int
+    industry: str
 

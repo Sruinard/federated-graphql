@@ -9,13 +9,13 @@ class Company:
     name: str
     ceo: str
     rating: int
-    number_of_empolyees: int
+    industry: str
 
 
 
 @strawberry.federation.field(requires=["name"])
 def get_companies(root: "Founder") -> List[Company]:
-    return [Company(id=company.id, name=company.name, ceo=company.ceo) for company in repo.CompanyRepoInstance.get_by_ceo(root.name)]
+    return [Company(id=company.id, name=company.name, ceo=company.ceo, rating=company.rating, industry=company.industry) for company in repo.CompanyRepoInstance.get_by_ceo(root.name)]
 
 @strawberry.federation.type(extend=True, keys=["id"])
 class Founder:
@@ -24,7 +24,7 @@ class Founder:
     
     @strawberry.federation.field(requires=["name"])
     def companies(root: "Founder") -> List[Company]:
-        return [Company(id=company.id, name=company.name, ceo=company.ceo, rating=company.rating, number_of_employees=company.number_of_employees) for company in repo.CompanyRepoInstance.get_by_ceo(root.name)]
+        return [Company(id=company.id, name=company.name, ceo=company.ceo, rating=company.rating, industry=company.industry) for company in repo.CompanyRepoInstance.get_by_ceo(root.name)]
 
     @classmethod
     def resolve_reference(cls, id: strawberry.ID, name: str):

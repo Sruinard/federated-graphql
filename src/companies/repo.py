@@ -15,7 +15,7 @@ class CompanyRepo:
     def __init__(self):
         self.companies = []
         self.companies.append(models.Company(
-            id=get_id(), name="Microsoft", ceo="Satya Nadella", rating=5, number_of_employees=181000))
+            id=get_id(), name="Microsoft", ceo="Satya Nadella", rating=5, industry='Technology'))
 
     def get(self):
         return self.companies
@@ -32,10 +32,10 @@ class CompanyRepo:
             return None
         return companies[0]
 
-    def add_company(self, name, ceo, rating, number_of_employees):
+    def add_company(self, name, ceo, rating, industry):
         company = self.get_by_company_name(name)
         if company is None:
-            company = models.Company(id=get_id(), name=name, ceo=ceo, rating=rating, number_of_employees=number_of_employees)
+            company = models.Company(id=get_id(), name=name, ceo=ceo, rating=rating, industry=industry)
             self.companies.append(company)
         return company
 

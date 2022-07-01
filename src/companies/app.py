@@ -64,8 +64,8 @@ class Query:
 @strawberry.type
 class Mutation:
     @strawberry.mutation(description="Creates a new account")
-    def add_company(self, name: str, ceo: str, rating: int, number_of_employees: int) -> schemas.Company:
-        company = repo.CompanyRepoInstance.add_company(name, ceo, rating, number_of_employees)
+    def add_company(self, name: str, ceo: str, rating: int, industry: str) -> schemas.Company:
+        company = repo.CompanyRepoInstance.add_company(name, ceo, rating, industry)
         return company
 
 schema = strawberry.federation.Schema(query=Query, mutation=Mutation, types=[schemas.Founder])

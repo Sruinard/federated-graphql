@@ -40,7 +40,7 @@ jobs:
       - name: deploy container apps
         id: deploy_apps
         run: |
-          echo "::set-output name=graph_endpoint::$(az deployment group create --resource-group csu-nl-sr-graphql --template-file ./deployment/apps/main.bicep --query properties.outputs.graphqlEndpoint.value)"
+          echo "::set-output name=graph_endpoint::$(az deployment group create --resource-group ${{ env.RESOURCE_GROUP }} --template-file ./deployment/apps/main.bicep --query properties.outputs.graphqlEndpoint.value)"
 
       - uses: actions/setup-node@v3
         with:
