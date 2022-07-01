@@ -18,8 +18,11 @@ def get_config():
 
 @strawberry.type
 class Query:
-    all_founders: List[schemas.Founder] = strawberry.field(
-        resolver=FounderRepoInstance.get, description="Retrieves all accounts registered on our service")
+    @strawberry.field
+    def founders(self, where_name_is: str = None) -> List[schemas.Founder]:
+        if where_name_is is not None:
+            return [FounderRepoInstance.get_by_name(name=where_name_is)]
+        return FounderRepoInstance.get()
     config: str = strawberry.field(
         resolver=get_config, description="Retrieves the configuration of our service")
 

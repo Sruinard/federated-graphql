@@ -14,6 +14,7 @@ class FounderRepo:
     def __init__(self):
         self.founders = []
         self.founders.append(models.Founder(id=get_id(), name="Satya Nadella"))
+        self.founders.append(models.Founder(id=get_id(), name="Jeff Bezos"))
 
     def get(self):
         return self.founders
