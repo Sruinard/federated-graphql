@@ -1,7 +1,6 @@
 param location string = resourceGroup().location
 param environmentName string = 'csu-graphql'
 param containerRegistryName string = 'graphqlacr'
-param deployApim bool = true
 param apimName string = 'graph-api-mgmt-${uniqueString(resourceGroup().id)}'
 
 param containerAppsObjects object = {
