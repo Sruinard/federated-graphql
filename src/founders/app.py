@@ -1,6 +1,6 @@
 import os
 import uuid
-from typing import List
+from typing import List, Optional
 
 import strawberry
 from fastapi import FastAPI
@@ -19,7 +19,7 @@ def get_config():
 @strawberry.type
 class Query:
     @strawberry.field
-    def founders(self, where_name_is: str = None) -> List[schemas.Founder]:
+    def founders(self, where_name_is: Optional[str] = None) -> List[schemas.Founder]:
         if where_name_is is not None:
             return [FounderRepoInstance.get_by_name(name=where_name_is)]
         return FounderRepoInstance.get()
