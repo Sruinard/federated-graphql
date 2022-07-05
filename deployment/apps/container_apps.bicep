@@ -71,14 +71,4 @@ resource containerApp 'Microsoft.App/containerApps@2022-01-01-preview' = {
   }
 }
 
-// resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-//   scope: containerApp
-//   name: guid(containerApp.id, roleDefinitionResourceId)
-//   properties: {
-//     roleDefinitionId: roleDefinitionResourceId
-//     principalId: containerApp.identity.principalId
-//     principalType: 'ServicePrincipal'
-//   }
-// }
-
 output fqdn string = enableIngress ? containerApp.properties.configuration.ingress.fqdn : 'Ingress not enabled'

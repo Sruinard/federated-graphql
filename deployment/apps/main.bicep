@@ -1,7 +1,7 @@
 param location string = resourceGroup().location
 param environmentName string = 'csu-graphql'
 param containerRegistryName string = 'graphqlacr'
-param apimName string = 'graph-api-mgmt-${uniqueString(resourceGroup().id)}'
+param apimName string = 'api-mgmt-${uniqueString(resourceGroup().id)}'
 
 param containerAppsObjects object = {
   founders: {
@@ -105,17 +105,6 @@ resource gatewayApiAPIM 'Microsoft.ApiManagement/service/apis@2021-04-01-preview
     ]
   }
 }
-
-// resource bankAPISchema 'Microsoft.ApiManagement/service/apis/schemas@2021-12-01-preview' = {
-//   name: 'graphql'
-//   parent: bankAPI
-//   properties: {
-//     contentType: 'application/vnd.ms-azure-apim.graphql.schema'
-//     document: {
-//       value: loadTextContent('../../schema.graphql')
-//     }
-//   }
-// }
 
 output graphqlEndpoint string = 'https://${gatewayApp.outputs.fqdn}'
 output apiId string = gatewayApiAPIM.name
