@@ -2,7 +2,7 @@ param location string = resourceGroup().location
 param environmentName string = 'csu-graphql'
 param containerRegistryName string = 'graphqlacr'
 param deployApim bool = true
-param apimName string = 'graph-api-mgmt-${uniqueString(resourceGroup().id)}'
+param apimName string = 'api-mgmt-${uniqueString(resourceGroup().id)}'
 
 module apim 'apim.bicep' = if (deployApim) {
   name: '${deployment().name}--apim'
