@@ -20,7 +20,6 @@ jobs:
       - name: deploy infra
         id: deploy_infra
         run: |
-          az group create --name ${{env.RESOURCE_GROUP}} --location westeurope
           echo "::set-output name=registry::$(az deployment group create --resource-group ${{env.RESOURCE_GROUP}} --template-file ./deployment/infra/main.bicep --query properties.outputs.containerRegistryName.value)"
   deploy_apps:
     runs-on: ubuntu-latest
