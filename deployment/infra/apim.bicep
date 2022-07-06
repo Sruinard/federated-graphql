@@ -22,7 +22,6 @@ resource storeapim 'Microsoft.ApiManagement/service@2021-04-01-preview' = {
   properties: {
     publisherEmail: publisherEmail
     publisherName: publisherName
-    restore: true
   }
   identity: {
     type: 'SystemAssigned'
