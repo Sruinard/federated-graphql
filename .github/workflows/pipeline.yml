@@ -17,6 +17,9 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: register azure container apps resource provider
+        run: |
+          az provider register --namespace Microsoft.App --wait
       - name: deploy infra
         id: deploy_infra
         run: |
