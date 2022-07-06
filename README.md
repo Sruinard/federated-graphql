@@ -96,11 +96,11 @@ go to http://localhost:4000 and insert the following query:
    `az group create --name <resource-group-name> --location <location>` and add your resource group name to line 7 in [pipeline.yml](./.github/workflows/pipeline.yml)
 
 2. create a service-principal and add the content of this command as a secret in your github
-   repository called AZURE_CREDENTIALS
+   repository called AZURE_CREDENTIALS. We need contributor role on the Subscription (and not on the resource group) as our CICD pipeline will register the Azure Container Apps provider
 
 ```
 az ad sp create-for-rbac --name "graphql-azure" --role contributor \
-    --scopes /subscriptions/<subscription-id>/resourceGroups/<group-name> \
+    --scopes /subscriptions/<subscription-id> \
     --sdk-auth
 ```
 
