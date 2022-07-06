@@ -10,7 +10,7 @@ param publisherEmail string
   'Standard'
   'Premium'
 ])
-param sku string = 'Consumption'
+param sku string = 'Developer'
 
 resource storeapim 'Microsoft.ApiManagement/service@2021-04-01-preview' = {
   name: apimName
