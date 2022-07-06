@@ -1,7 +1,7 @@
 param location string = resourceGroup().location
 param environmentName string = 'csu-graphql'
 param containerRegistryName string = 'graphqlacr'
-param apimName string = 'api-mgmt-${uniqueString(resourceGroup().id)}'
+param apimName string = 'api-mgmt-microcrunch${uniqueString(resourceGroup().id)}'
 
 param containerAppsObjects object = {
   founders: {
