@@ -92,6 +92,9 @@ go to http://localhost:4000 and insert the following query:
 
 ## Deploying this application to Azure
 
+NOTE: INITIAL DEPLOYMENT COULD TAKE UP TO 90min due to deployment of Azure API Management.
+
+
 1. Create a resource group:
    `az group create --name <resource-group-name> --location <location>` and add your resource group name to line 7 in [pipeline.yml](./.github/workflows/pipeline.yml)
 
