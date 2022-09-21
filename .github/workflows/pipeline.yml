@@ -5,7 +5,7 @@ on:
       - main
     
 env:
-  RESOURCE_GROUP: "csu-nl-sr-graphql"
+  RESOURCE_GROUP: "csu-nl-graphql"
 jobs:
   deploy_infra:
     runs-on: ubuntu-latest

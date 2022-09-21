@@ -3,7 +3,7 @@ from typing import List
 import repo
 
 
-@strawberry.type(description="Payment provides information about the amount transferred to the recipient")
+@strawberry.type(description="Entity representing a company")
 class Company:
     id: strawberry.ID
     name: str

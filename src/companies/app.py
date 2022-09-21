@@ -1,6 +1,5 @@
 from typing import List, Optional
 
-import requests
 import strawberry
 from fastapi import FastAPI
 from strawberry.asgi import GraphQL
@@ -12,11 +11,11 @@ import schemas
 class Query:
     _service: Optional[str]
     companies: List[schemas.Company] = strawberry.field(
-        resolver=repo.CompanyRepoInstance.get, description="Retrieves all accounts registered on our service")
+        resolver=repo.CompanyRepoInstance.get, description="Retrieves all registered companies")
 
 @strawberry.type
 class Mutation:
-    @strawberry.mutation(description="Creates a new account")
+    @strawberry.mutation(description="Creates a new company")
     def add_company(self, name: str, ceo: str, rating: int, industry: str) -> schemas.Company:
         company = repo.CompanyRepoInstance.add_company(name, ceo, rating, industry)
         return company

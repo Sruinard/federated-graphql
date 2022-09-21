@@ -29,7 +29,7 @@ class Query:
 
 @strawberry.type
 class Mutation:
-    @strawberry.mutation(description="Creates a new account")
+    @strawberry.mutation(description="Creates a founder")
     def add_founder(self, name: str) -> schemas.Founder:
         founder = FounderRepoInstance.add_founder(name)
         return founder
