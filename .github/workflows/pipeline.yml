@@ -5,7 +5,7 @@ on:
       - main
     
 env:
-  RESOURCE_GROUP: "csu-nl-graphql"
+  RESOURCE_GROUP: "csu-nl-rabo-graphql-demo"
 jobs:
   deploy_infra:
     runs-on: ubuntu-latest
